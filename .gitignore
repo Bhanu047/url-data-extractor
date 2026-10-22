@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.venv/
+data/
+exports/
+*.sqlite3*
+*.csv
+*.jsonl
+.DS_Store
+.env
+.env.*

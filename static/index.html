@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>URL Data Extractor</title><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script></head>
+<body>
+<header><div class="brand">↗ URL Data Extractor</div><span id="environment" class="badge">Runs on your computer</span></header>
+<main>
+<p id="storage-notice" class="muted" hidden>Free hosting: saved runs can disappear when the server restarts, sleeps, or redeploys. Download your results promptly. For long runs, use the local version or hosting with persistent storage.</p>
+<div class="intro"><p class="eyebrow">FROM LINKS TO DATA</p><h1>One URL.<br>Every page in your range.</h1><p>Extract tables, names, dates, and other labelled fields. Save all collected data, including runs with 50,000+ records.</p></div>
+<section class="card"><form id="form">
+<label for="mode">How should we collect?</label><select id="mode"><option value="urls">Start URL → End URL</option><option value="range">URL pattern + start/end numbers</option><option value="single">One URL</option><option value="next">Follow “Next” page links</option></select>
+<label for="url"><span id="url-label">Start URL</span> <span id="hint" hidden>— replace the changing number with {page}</span></label><input id="url" type="text" placeholder="https://example.com/people/1" required autocomplete="off" spellcheck="false">
+<div id="end-url-box"><label for="end-url">End URL (included)</label><input id="end-url" type="url" placeholder="https://example.com/people/100000" required autocomplete="off" spellcheck="false"></div>
+<div id="range" class="range" hidden><div><label for="start">Start (included)</label><input id="start" type="number" min="0" value="1"></div><div><label for="end">End (included)</label><input id="end" type="number" min="0" value="20"></div></div>
+<p id="example" class="muted">Start /people/1, end /people/100000 visits all 100,000 URLs, including both endpoints. Each URL can contain multiple records.</p>
+<button id="submit" type="submit">Start extraction <span>→</span></button> <button id="sample" class="secondary" type="button">Fill sample URLs</button><p id="message" role="status" aria-live="polite"></p>
+</form></section>
+<section id="result" class="card" hidden><div class="section-head"><div><p class="eyebrow">COLLECTION</p><h2 id="status">Preparing…</h2></div><div class="actions"><button id="pause" class="secondary" type="button">Pause</button><button id="resume" class="secondary" type="button">Resume / retry failures</button></div></div>
+<progress id="progress" max="20" value="0"></progress><div class="stats"><div><strong id="pages">0</strong><span>Pages saved</span></div><div><strong id="rows">0</strong><span>Table rows</span></div><div><strong id="fields">0</strong><span>Labelled / JSON fields</span></div><div><strong id="failures">0</strong><span>Failed pages</span></div></div>
+<p id="job-error" role="status"></p><div id="downloads" class="downloads"><a id="json">Full JSON</a><a id="jsonl">Full JSONL</a><a id="records">JSON Records CSV</a><a id="tables">Tables CSV</a><a id="fields-download">Fields CSV</a></div><p class="muted">Downloads include every saved record. Use JSON Records CSV for the sample users; use Tables CSV for HTML tables. Counts across views can overlap. Full JSON/JSONL also includes metadata, links, text, and failed-page details.</p>
+<details><summary>Failed pages (first 100; full list in JSON)</summary><pre id="failure-list"></pre></details><details open><summary>Data preview — limited display, complete downloads</summary><div id="preview"></div></details></section>
+<section class="card"><h2>Saved runs</h2><p class="muted">Progress stays on disk. Reopen a run to download results or resume after restarting.</p><div id="history"></div></section>
+<footer>No API key. No record-count cutoff. Public HTML and JSON only; some websites need a custom adapter for JavaScript, login, or pagination. A completed URL range means the requested pages were processed, not that the entire website was collected.</footer>
+</main></body></html>
