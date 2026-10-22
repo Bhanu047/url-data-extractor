@@ -85,9 +85,12 @@ class Document(HTMLParser):
         self.current.children.append(data)
 
 
+BLOCKED_DOMAINS = ('foggyfly.com', 'facebook.com')
+
+
 def check_source(url):
     host = (urlsplit(url).hostname or '').lower().rstrip('.')
-    if host == 'foggyfly.com' or host.endswith('.foggyfly.com'):
+    if any(host == d or host.endswith('.' + d) for d in BLOCKED_DOMAINS):
         raise ValueError('This source is unavailable in this tool. Use public test data or a source you are authorized to export.')
 
 

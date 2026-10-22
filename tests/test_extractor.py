@@ -47,7 +47,7 @@ class ExtractionTests(unittest.TestCase):
 
     def test_unavailable_source_is_rejected_before_network(self):
         with patch('extractor.socket.getaddrinfo') as dns:
-            for url in ['https://www.foggyfly.com/Booking/signature/1','https://FOGGYFLY.COM./anything']:
+            for url in ['https://www.foggyfly.com/Booking/signature/1','https://FOGGYFLY.COM./anything','https://www.facebook.com/somepage','https://m.FACEBOOK.com./x']:
                 with self.assertRaisesRegex(ValueError,'source is unavailable'):
                     public_target(url)
             dns.assert_not_called()
