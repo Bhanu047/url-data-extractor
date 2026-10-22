@@ -87,7 +87,7 @@ class Document(HTMLParser):
 
 def check_source(url):
     host = (urlsplit(url).hostname or '').lower().rstrip('.')
-    if host == 'foggyfly.com' or host.endswith('.foggyfly.com'):
+    if host == 'instagram.com' or host.endswith('.instagram.com'):
         raise ValueError('This source is unavailable in this tool. Use public test data or a source you are authorized to export.')
 
 
