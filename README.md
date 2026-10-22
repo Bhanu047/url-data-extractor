@@ -1,5 +1,11 @@
 # URL Data Extractor
 
+**Live app:** https://bhanu-url-data-extractor.onrender.com
+
+**Source:** https://github.com/Bhanu047/url-data-extractor
+
+The hosted app requires its private access code. The code is not stored in GitHub.
+
 Paste a public URL, choose a numbered range such as **1 to 20**, and download tables, labelled fields, and structured data. Jobs persist on disk and can resume. Python standard library only; no API key or record-count cutoff.
 
 ## Run
@@ -49,7 +55,7 @@ The first all-`th` row becomes a table header; common row/column spans are expan
 
 There is **no 50,000-record cutoff**. The regression suite extracts **50,020 table rows across 20 fixture pages**, checks the full CSV row count, and verifies the last record. Results commit to SQLite after each page. Exports stream page by page; the interface preview limit never truncates exports.
 
-Capacity depends on disk, memory, and the website. Each HTML/JSON response has a **100 MB** download limit and is parsed in memory; extremely large or deeply nested individual responses can fail. Use pagination for large datasets. That limit applies per response, not to the entire multi-page job. Table rows, fields, and JSON array objects are distinct counts; the UI does not claim its table-row count measures every JSON object.
+Capacity depends on disk, memory, and the website. Each HTML/JSON response has a **100 MB** default local download limit (10 MB on the free hosted instance) and is parsed in memory; extremely large or deeply nested individual responses can fail. Use pagination for large datasets. That limit applies per response, not to the entire multi-page job. Table rows, fields, and JSON array objects are distinct counts; the UI does not claim its table-row count measures every JSON object.
 
 ## Downloads
 
@@ -75,9 +81,9 @@ Completion means the specified URLs were processed, not that the website returne
 
 Public HTTP(S) HTML and JSON on ports 80/443 only. No JavaScript execution, login/cookies, CAPTCHA bypass, PDFs/images, or arbitrary crawling. JavaScript tables, infinite scroll, API cursor pagination, and authenticated sites need adapters. No generic extractor can guarantee every field from every website.
 
-The fetcher has a 30-second download budget and a 100 MB per-response cap; OS DNS resolution can add resolver time. It blocks private/local addresses, revalidates each redirect, pins resolved IPs, and validates HTTPS hostnames. The app runs only on loopback and validates Host/Origin. Do not expose this development server publicly.
+The fetcher has a 30-second download budget and a 100 MB per-response cap; OS DNS resolution can add resolver time. It blocks private/local addresses, revalidates each redirect, pins resolved IPs, and validates HTTPS hostnames. Local mode binds only to loopback. Hosted mode requires a strong APP_ACCESS_CODE and an exact RENDER_EXTERNAL_HOSTNAME, validates Host/Origin, and protects API routes and downloads using signed session cookies. The hosted version is a personal preview, not a general multi-tenant service.
 
-Source records remain local and are not logged. `data/` and common export files are ignored by Git. Do not commit extracted personal data to the repository. Use only data you are authorized to access and respect the site's access rules.
+Source records remain in the app database and are not logged. Local mode stores them on your computer; hosted mode stores them on the hosting instance. `data/` and common export files are ignored by Git. Do not commit extracted personal data to the repository. Use only data you are authorized to access and respect the site's access rules.
 
 ## Tests
 

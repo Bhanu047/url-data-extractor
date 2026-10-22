@@ -24,7 +24,7 @@ controls, or execute JavaScript. See README.md for details.
 
 This folder is ready for a GitHub repository. Upload the source files,
 including `.github/workflows/tests.yml`, but keep `data/` and personal exports
-out of the repository. No repository has been published automatically.
+out of the repository. Source code: https://github.com/Bhanu047/url-data-extractor. Live app: https://bhanu-url-data-extractor.onrender.com (access code required).
 
 ## macOS / Linux
 
