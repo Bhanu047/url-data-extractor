@@ -45,6 +45,13 @@ class ExtractionTests(unittest.TestCase):
         self.assertEqual(result['structured_data'][0]['data'], value)
         self.assertEqual(len(result['fields']), 4)
 
+    def test_unavailable_source_is_rejected_before_network(self):
+        with patch('extractor.socket.getaddrinfo') as dns:
+            for url in ['https://www.foggyfly.com/Booking/signature/1','https://FOGGYFLY.COM./anything']:
+                with self.assertRaisesRegex(ValueError,'source is unavailable'):
+                    public_target(url)
+            dns.assert_not_called()
+
     def test_csv_formula_protection(self):
         values = next(csv.reader(io.StringIO(csv_text([['=CMD','\t+CMD','normal','1997-01-01']]))))
         self.assertTrue(values[0].startswith("'="))

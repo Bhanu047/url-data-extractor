@@ -9,7 +9,7 @@ from contextlib import contextmanager
 from pathlib import Path
 from urllib.parse import urldefrag, urlsplit
 
-from extractor import extract, fetch
+from extractor import check_source, extract, fetch
 
 
 def range_from_urls(start_url, end_url):
@@ -94,6 +94,7 @@ class Jobs:
             start = end = 1
             candidate = url
         parsed = urlsplit(candidate)
+        check_source(candidate)
         if parsed.scheme not in {'http', 'https'} or not parsed.hostname:
             raise ValueError('Enter a full http:// or https:// URL.')
         # Fetch rechecks DNS, ports, and every redirect at request time.
@@ -132,7 +133,7 @@ class Jobs:
                 raise ValueError('This job is still running; wait until it is paused or finished.')
             if self.running:
                 raise ValueError('Pause the current job before starting another one.')
-            self.status(job_id)
+            check_source(self.status(job_id)['config']['url'])
             with self.connect() as db:
                 db.execute("UPDATE jobs SET status='running',error='' WHERE id=?", (job_id,))
             self.running.add(job_id)
@@ -154,6 +155,7 @@ class Jobs:
 
     def _run(self, job_id):
         config = self.status(job_id)['config']
+        check_source(config['url'])
         page = config['start']
         url = page_url(config, page)
         seen = set()

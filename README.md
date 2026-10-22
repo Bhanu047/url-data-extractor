@@ -79,6 +79,8 @@ Completion means the specified URLs were processed, not that the website returne
 
 ## Access and limitations
 
+This personal deployment excludes the FoggyFly source. It is intended for public test data and sources the operator is authorized to export.
+
 Public HTTP(S) HTML and JSON on ports 80/443 only. No JavaScript execution, login/cookies, CAPTCHA bypass, PDFs/images, or arbitrary crawling. JavaScript tables, infinite scroll, API cursor pagination, and authenticated sites need adapters. No generic extractor can guarantee every field from every website.
 
 The fetcher has a 30-second download budget and a 100 MB per-response cap; OS DNS resolution can add resolver time. It blocks private/local addresses, revalidates each redirect, pins resolved IPs, and validates HTTPS hostnames. Local mode binds only to loopback. Hosted mode requires a strong APP_ACCESS_CODE and an exact RENDER_EXTERNAL_HOSTNAME, validates Host/Origin, and protects API routes and downloads using signed session cookies. The hosted version is a personal preview, not a general multi-tenant service.
