@@ -177,6 +177,27 @@ class JobTests(unittest.TestCase):
         self.run_sync(store, job_id)
         self.assertEqual(len(calls),20)
 
+    def test_three_jobs_run_at_once_fourth_waits(self):
+        release = threading.Event()
+        def fixture(url):
+            release.wait(5)
+            return url, '<p>Name: Test</p>', 'text/html'
+        store = Jobs(self.path, fixture, 0)
+        ids = [store.create({'url':f'https://example.com/{n}/{{page}}','mode':'range','start':1,'end':1}) for n in range(4)]
+        try:
+            for job_id in ids[:3]:
+                store.start(job_id)
+            with self.assertRaisesRegex(ValueError,'3 jobs are already running'):
+                store.start(ids[3])
+        finally:
+            release.set()
+        for _ in range(100):
+            if not store.running:
+                break
+            time.sleep(0.05)
+        for job_id in ids[:3]:
+            self.assertEqual(store.status(job_id)['status'],'completed')
+
     def test_failure_retry_after_restart(self):
         calls, broken = [], [True]
         def fixture(url):

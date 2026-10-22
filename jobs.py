@@ -1,5 +1,6 @@
 """Durable, disk-backed bulk jobs. No record-count cutoff."""
 import json
+import os
 import re
 import sqlite3
 import threading
@@ -10,6 +11,9 @@ from pathlib import Path
 from urllib.parse import urldefrag, urlsplit
 
 from extractor import check_source, extract, fetch
+
+# How many jobs may run at the same time.
+MAX_JOBS = max(1, int(os.environ.get('MAX_JOBS', '3')))
 
 
 def range_from_urls(start_url, end_url):
@@ -131,8 +135,8 @@ class Jobs:
         with self.lock:
             if job_id in self.running:
                 raise ValueError('This job is still running; wait until it is paused or finished.')
-            if self.running:
-                raise ValueError('Pause the current job before starting another one.')
+            if len(self.running) >= MAX_JOBS:
+                raise ValueError(f'{MAX_JOBS} jobs are already running. Pause one or wait for it to finish before starting another.')
             check_source(self.status(job_id)['config']['url'])
             with self.connect() as db:
                 db.execute("UPDATE jobs SET status='running',error='' WHERE id=?", (job_id,))

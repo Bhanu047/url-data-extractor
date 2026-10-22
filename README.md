@@ -71,7 +71,7 @@ A JSON response might have no HTML tables; use Full JSON or Fields CSV for it. F
 
 ## Resume and failures
 
-Jobs are stored in `data/jobs.sqlite3` on your computer. After a process restart, interrupted jobs appear as paused. **Resume / retry failures** keeps successful pages and retries failed or unvisited pages. One job runs at a time, with three attempts per page and a one-second delay between pages.
+Jobs are stored in `data/jobs.sqlite3` on your computer. After a process restart, interrupted jobs appear as paused. **Resume / retry failures** keeps successful pages and retries failed or unvisited pages. Up to three jobs run at the same time (set `MAX_JOBS` to change this), each with three attempts per page and a one-second delay between pages.
 
 Failed range pages produce `completed_with_errors`. Next-link jobs stop at a failure because the next URL is unknown; resuming retries it. Pagination loops stop with a visible error. JSON exports retain every failed-page error; the UI lists the first 100 failures. Never treat a partial export as a complete collection.
 
