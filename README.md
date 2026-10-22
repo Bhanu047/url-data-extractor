@@ -79,7 +79,7 @@ Completion means the specified URLs were processed, not that the website returne
 
 ## Access and limitations
 
-This personal deployment excludes the FoggyFly source. It is intended for public test data and sources the operator is authorized to export.
+This personal deployment excludes Instagram. It is intended for public test data and sources the operator is authorized to export.
 
 Public HTTP(S) HTML and JSON on ports 80/443 only. No JavaScript execution, login/cookies, CAPTCHA bypass, PDFs/images, or arbitrary crawling. JavaScript tables, infinite scroll, API cursor pagination, and authenticated sites need adapters. No generic extractor can guarantee every field from every website.
 
